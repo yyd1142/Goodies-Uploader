@@ -1,0 +1,22 @@
+div.esay-uploader-main {
+  width: 100%;
+  position: relative;
+  height: 100%;
+}
+div.esay-uploader-main:hover .esay-uploader-button {
+  color: red;
+}
+div.esay-uploader-main .esay-uploader-input {
+  width: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+}
+div.esay-uploader-main .esay-uploader-button {
+  font-size: 14px;
+  color: #262626;
+}
