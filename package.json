@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel index.js --out-file easy-uploader.min.js"
+    "build": "babel index.js --out-file easy-uploader.min.js --compact [true] --minified[true]"
   },
   "repository": {
     "type": "git",
