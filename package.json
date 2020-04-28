@@ -1,0 +1,22 @@
+{
+  "name": "goodies-uploader",
+  "version": "1.0.0",
+  "description": "File Upload widget with multiple file selection, drag&drop support, progress bars, audio and video for javascript.",
+  "main": "uploader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yyd1142/Easy-Uploader.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "yyd1142",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yyd1142/Easy-Uploader/issues"
+  },
+  "homepage": "https://github.com/yyd1142/Easy-Uploader#readme"
+}
