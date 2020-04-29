@@ -7,7 +7,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'goodiesUploader.min.js'
+        filename: 'goodies-uploader.js'
     },
     module: {
         rules: [

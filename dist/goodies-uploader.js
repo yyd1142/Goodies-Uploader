@@ -1,3 +1,93 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
 const Observe = function () {
     let __message = {};
     return {
@@ -21,17 +111,19 @@ const Observe = function () {
         //发布消息接口
         subscribe: function (type, data) {
             if (!__message[type]) return;
-            let events = data, i = 0, len = __message[type].length;   // 执行队列长度
+            let events = data,
+                i = 0,
+                len = __message[type].length; // 执行队列长度
             //遍历执行函数
             for (; i < len; i++) {
                 //依次执行注册消息对应的方法
-                __message[type][i].call(this, events)
+                __message[type][i].call(this, events);
             }
             if (type === 'beforeUpload') {
                 return __message.beforeUpload[0]();
             }
         }
-    }
+    };
 };
 window.GoodiesUploader = function (el, options) {
     this.fileList = [];
@@ -84,7 +176,7 @@ window.GoodiesUploader = function (el, options) {
                 <div class="goodies-upload--progress__text">0%</div>
             </div>
         </li>
-        `
+        `;
         this.fileList.push(file);
         listIndex++;
         // upload file
@@ -100,7 +192,7 @@ window.GoodiesUploader = function (el, options) {
         const nodeList = document.querySelectorAll('.goodies-upload-list__item');
         if (nodeList.length > 0) {
             for (let node of nodeList) {
-                node.querySelector('.icon-close').addEventListener('click', (event) => {
+                node.querySelector('.icon-close').addEventListener('click', event => {
                     drapUpList.removeChild(node);
                     drapInputWrap.innerHTML = "";
                     let fileList = [];
@@ -115,11 +207,11 @@ window.GoodiesUploader = function (el, options) {
                     if (request) request.abort();
                     setTimeout(() => {
                         drapInputWrap.innerHTML = `<input id="drapInputFile" type="file" class="goodies-upload__input" />`;
-                        document.getElementById("drapInputFile").addEventListener("change", (event) => {
+                        document.getElementById("drapInputFile").addEventListener("change", event => {
                             onChangeFile(event.target.files[0], listIndex);
-                        })
+                        });
                     }, 500);
-                })
+                });
             }
         }
         request.onreadystatechange = () => {
@@ -140,7 +232,7 @@ window.GoodiesUploader = function (el, options) {
             if (options.success) options.success(response, file, this.fileList);
             // Clean up request
             request = null;
-        }
+        };
         // Handle low level network errors
         request.onerror = () => {
             // Real errors are hidden from us by the browser
@@ -152,9 +244,9 @@ window.GoodiesUploader = function (el, options) {
         };
         // Not all browsers support upload events
         if (request.upload) {
-            request.upload.addEventListener('progress', (event) => {
+            request.upload.addEventListener('progress', event => {
                 const listItem = document.getElementById(`listIndex${index}`);
-                var percentCompleted = Math.round((event.loaded * 100) / event.total);
+                var percentCompleted = Math.round(event.loaded * 100 / event.total);
                 const inner = listItem.querySelector('.goodies-upload-progress-bar .goodies-upload-progress-bar__outer .goodies-upload-progress-bar__inner');
                 const text = listItem.querySelector('.goodies-upload-progress-bar .goodies-upload--progress__text');
                 inner.setAttribute('style', `width: ${percentCompleted}%`);
@@ -165,22 +257,25 @@ window.GoodiesUploader = function (el, options) {
             });
         }
         request.send(formData);
-    }
+    };
     // listeners
-    drapUpWrap.addEventListener("dragover", (event) => {
+    drapUpWrap.addEventListener("dragover", event => {
         event.preventDefault();
         drapContainer.setAttribute('class', 'goodies-upload__container is-dragover');
     });
-    drapUpWrap.addEventListener("dragleave", (event) => {
+    drapUpWrap.addEventListener("dragleave", event => {
         event.preventDefault();
         drapContainer.setAttribute('class', 'goodies-upload__container');
-    })
-    drapUpWrap.addEventListener("drop", (event) => {
+    });
+    drapUpWrap.addEventListener("drop", event => {
         event.preventDefault();
         drapContainer.setAttribute('class', 'goodies-upload__container');
         this.onChangeFile(event.dataTransfer.files[0], listIndex);
     });
-    drapInputFile.addEventListener("change", (event) => {
+    drapInputFile.addEventListener("change", event => {
         this.onChangeFile(event.target.files[0], listIndex);
     });
-}
+};
+
+/***/ })
+/******/ ]);
