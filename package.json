@@ -1,22 +1,41 @@
 {
   "name": "goodies-uploader",
   "version": "1.0.0",
-  "description": "File Upload widget with multiple file selection, drag&drop support, progress bars, audio and video for javascript.",
-  "main": "uploader.js",
+  "description": "GoodiesUploader is an open source library that provides drag’n’drop file uploads.",
+  "main": "index.js",
+  "directories": {
+    "example": "dist"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js --mode production"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yyd1142/Easy-Uploader.git"
+    "url": "git+https://github.com/yyd1142/Goodies-Uploader.git"
   },
   "keywords": [
+    "drop",
+    "upload",
     "javascript"
   ],
   "author": "yyd1142",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yyd1142/Easy-Uploader/issues"
+    "url": "https://github.com/yyd1142/Goodies-Uploader/issues"
   },
-  "homepage": "https://github.com/yyd1142/Easy-Uploader#readme"
+  "homepage": "https://github.com/yyd1142/Goodies-Uploader#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-es2015": "^6.24.1",
+    "grunt": "^1.1.0",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "path": "^0.12.7",
+    "terser-webpack-plugin": "^2.3.6",
+    "uglifyjs-3-webpack-plugin": "^1.2.4",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
 }
