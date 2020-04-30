@@ -12,15 +12,15 @@ $ npm install goodies-uploader
 Using jsDelivr CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.3/dist/goodies-uploader.css">
-<script src="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.3/dist/goodies-uploader.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.4/dist/goodies-uploader.css">
+<script src="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.4/dist/goodies-uploader.js"></script>
 ```
 
 Using unpkg CDN:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/goodies-uploader@1.0.3/dist/goodies-uploader.css">
-<script src="https://unpkg.com/goodies-uploader@1.0.3/dist/goodies-uploader.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/goodies-uploader@1.0.4/dist/goodies-uploader.css">
+<script src="https://unpkg.com/goodies-uploader@1.0.4/dist/goodies-uploader.js"></script>
 ```
 
 ## Example
