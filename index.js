@@ -21,7 +21,7 @@ window.GoodiesUploader = class GoodiesUploader {
                         <div class="text">将文件拖到此处，或<em>点击上传</em></div>
                     </div>
                 </div>
-                <div class="goodies-upload__tip" style="display: ${this.$options.note ? 'block' : 'none'};">${this.$options.note}</div>
+                <div class="goodies-upload__tip" style="display: ${this.$options.tip ? 'block' : 'none'};">${this.$options.tip}</div>
                 <ul class="goodies-upload-list" id="drapUpList" style="display: none;"></ul>
             </div>`;
         this.$el.innerHTML = content;
