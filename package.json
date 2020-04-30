@@ -1,6 +1,6 @@
 {
   "name": "goodies-uploader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "GoodiesUploader is an open source library that provides drag’n’drop file uploads.",
   "main": "index.js",
   "directories": {

@@ -12,13 +12,13 @@ $ npm install goodies-uploader
 Using jsDelivr CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.2/dist/goodies-uploader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.3/dist/goodies-uploader.js"></script>
 ```
 
 Using unpkg CDN:
 
 ```html
-<script src="https://unpkg.com/goodies-uploader@1.0.2/dist/goodies-uploader.js"></script>
+<script src="https://unpkg.com/goodies-uploader@1.0.3/dist/goodies-uploader.js"></script>
 ```
 
 ## goodies-uploader Example
@@ -32,7 +32,18 @@ Using unpkg CDN:
 
 ```js
 import GoodiesUploader from 'goodies-uploader/dist/goodies-uploader';
-// ...
+
+var uploader = new GoodiesUploader('#uploader', { action: 'http://172.16.2.20:10086/upload/' });
+uploader.on('beforeUpload', function (file) {
+    console.log(file);
+    return true;
+});
+uploader.on('success', function (res) {
+    console.log(res);
+});
+uploader.on('error', function (res) {
+    console.log(res);
+});
 ```
 
 ## goodies-uploader API
