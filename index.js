@@ -1,7 +1,6 @@
 window.GoodiesUploader = class GoodiesUploader {
     constructor(el, options) {
         this.$el = document.querySelector(el);
-        this.$file = "";
         this.$fileList = [];
         this.$options = options;
         this._cache = {}; // 事件订阅发布，字典
@@ -14,7 +13,7 @@ window.GoodiesUploader = class GoodiesUploader {
             <div id="drapUpWrap" class="goodies-upload__wrap">
                 <div class="goodies-upload__container">
                     <div id="drapInputWrap">
-                        <input id="drapInputFile" type="file" class="goodies-upload__input" />
+                        <input id="drapInputFile" type="file" class="goodies-upload__input" style="display: ${this.$options.disabled ? 'none' : 'block'};"/>
                     </div>
                     <div class="goodies-upload__dragger">
                         <i class="iconfont icon-upload"></i>
@@ -28,39 +27,64 @@ window.GoodiesUploader = class GoodiesUploader {
         const drapUpWrap = document.getElementById("drapUpWrap");
         const drapInputFile = document.getElementById("drapInputFile");
         const drapContainer = document.querySelector('.goodies-upload__container');
-
+        if (this.$options.multiple) {
+            drapInputFile.setAttribute("multiple", "multiple");
+        }
         // listeners
         drapUpWrap.addEventListener("dragover", (event) => {
             event.preventDefault();
-            drapContainer.setAttribute('class', 'goodies-upload__container is-dragover');
+            if (!this.$options.disabled) {
+                drapContainer.setAttribute('class', 'goodies-upload__container is-dragover');
+            }
         });
         drapUpWrap.addEventListener("dragleave", (event) => {
             event.preventDefault();
-            drapContainer.setAttribute('class', 'goodies-upload__container');
+            if (!this.$options.disabled) {
+                drapContainer.setAttribute('class', 'goodies-upload__container');
+            }
         })
         drapUpWrap.addEventListener("drop", (event) => {
             event.preventDefault();
-            drapContainer.setAttribute('class', 'goodies-upload__container');
-            this.onChangeFile(event.dataTransfer.files[0], this.listIndex);
+            if (this.$options.disabled) {
+                // ...
+            } else {
+                drapContainer.setAttribute('class', 'goodies-upload__container');
+                const files = event.dataTransfer.files;
+                if (this.$options.multiple && files.length > 1) {
+                    for (let item of files) {
+                        this.onChangeFile(item, this.listIndex);
+                    }
+                } else {
+                    this.onChangeFile(files[0], this.listIndex);
+                }
+            }
         });
         drapInputFile.addEventListener("change", (event) => {
-            this.onChangeFile(event.target.files[0], this.listIndex);
+            const files = event.target.files;
+            if (this.$options.multiple && files.length > 1) {
+                for (let item of files) {
+                    this.onChangeFile(item, this.listIndex);
+                }
+            } else {
+                this.onChangeFile(files[0], this.listIndex);
+            }
         });
     }
     onChangeFile(file, index) {
-        this.$file = file;
-        const result = this.trigger('beforeUpload', file)._cache.beforeUpload[0]();
-        if (result === false) {
-            // stop upload
+        const result = this.trigger('beforeUpload', file);
+        let uploadPaused = false;
+        if (result === false) uploadPaused = true;
+        if (uploadPaused) {
+            console.warn('Upload is paused.');
             return false;
         }
         const drapUpList = document.getElementById("drapUpList");
         const drapInputWrap = document.getElementById("drapInputWrap");
         drapUpList.setAttribute("style", "display: block;");
         drapUpList.innerHTML = drapUpList.innerHTML + `
-            <li id="listIndex${index}" class="goodies-upload-list__item has-progressbar" title="${this.$file.name}">
+            <li id="listIndex${index}" class="goodies-upload-list__item has-progressbar" title="${file.name}">
                 <div class="goodies-uploadlist__item-name">
-                    <i class="iconfont icon-document"></i>${this.$file.name}
+                    <i class="iconfont icon-document"></i>${file.name}
                 </div>
                 <div class="goodies-upload-list__item-status-label">
                     <i class="iconfont icon-checked"></i>
@@ -87,6 +111,11 @@ window.GoodiesUploader = class GoodiesUploader {
         }
         let request = new XMLHttpRequest();
         request.open("POST", options.action, true);
+        if (options.headers) {
+            for (let key in options.headers) {
+                request.setRequestHeader(key, options.headers[key]);
+            }
+        }
         const nodeList = document.querySelectorAll('.goodies-upload-list__item');
         if (nodeList.length > 0) {
             for (let node of nodeList) {
@@ -106,7 +135,14 @@ window.GoodiesUploader = class GoodiesUploader {
                     setTimeout(() => {
                         drapInputWrap.innerHTML = `<input id="drapInputFile" type="file" class="goodies-upload__input" />`;
                         document.getElementById("drapInputFile").addEventListener("change", (event) => {
-                            this.onChangeFile(event.target.files[0], this.listIndex);
+                            const files = event.target.files;
+                            if (this.$options.multiple && files.length > 1) {
+                                for (let item of files) {
+                                    this.onChangeFile(item, this.listIndex);
+                                }
+                            } else {
+                                this.onChangeFile(files[0], this.listIndex);
+                            }
                         })
                     }, 500);
                 })
@@ -159,7 +195,7 @@ window.GoodiesUploader = class GoodiesUploader {
     }
     // 绑定
     on(type, callback) {
-        let fns = (this._cache[type] = this._cache[type] || [])
+        let fns = (this._cache[type] = this._cache[type] || []);
         if (fns.indexOf(callback) === -1) {
             fns.push(callback)
         }
@@ -167,11 +203,14 @@ window.GoodiesUploader = class GoodiesUploader {
     }
     // 触发 emit
     trigger(type, data) {
-        let fns = this._cache[type]
+        let fns = this._cache[type] || [];
+        let result = '';
         if (Array.isArray(fns)) {
-            fns.forEach((fn) => fn(data));
+            fns.forEach((fn) => {
+                type === 'beforeUpload' ? result = fn(data) : fn(data);
+            });
         }
-        return this
+        return type === 'beforeUpload' ? result : this;
     }
     // 解绑
     off(type, callback) {

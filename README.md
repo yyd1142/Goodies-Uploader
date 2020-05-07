@@ -12,15 +12,15 @@ $ npm install goodies-uploader
 Using jsDelivr CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.4/dist/goodies-uploader.css">
-<script src="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.4/dist/goodies-uploader.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.5/dist/goodies-uploader.css">
+<script src="https://cdn.jsdelivr.net/npm/goodies-uploader@1.0.5/dist/goodies-uploader.js"></script>
 ```
 
 Using unpkg CDN:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/goodies-uploader@1.0.4/dist/goodies-uploader.css">
-<script src="https://unpkg.com/goodies-uploader@1.0.4/dist/goodies-uploader.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/goodies-uploader@1.0.5/dist/goodies-uploader.css">
+<script src="https://unpkg.com/goodies-uploader@1.0.5/dist/goodies-uploader.js"></script>
 ```
 
 ## Example
@@ -41,10 +41,13 @@ var uploader = new GoodiesUploader('#uploader', { action: 'http://172.16.2.20:10
 
 Option | Description | Type | Default
 | :-----| :-----|:-----|:-----|
-action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 必选参数，上传的地址 | String | - -
+action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 必选参数，上传的地址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | - -
+headers | 设置上传的请求头部 | Object | - -
 name | 上传的文件字段名 | String | `file`
 data | 上传时附带的额外参数 | Object | - -
 tip | 提示说明文字 | String | - -
+multiple | 是否支持多选文件 | Boolean | `false`
+disabled | 是否禁用 | Boolean | `false`
 
 ## Events
 
@@ -52,8 +55,12 @@ tip | 提示说明文字 | String | - -
 
 ```js
 uploader.on('beforeUpload', function (file) {
-    console.log(file);
-    return false;
+    if (file.name.indexOf('.jpg') === -1 && file.name.indexOf('.png') === -1) {
+        console.log('上传文件格式仅支持jpg、png。')
+        return false;
+    } else {
+        return true;
+    }
 });
 ```
 
@@ -72,3 +79,11 @@ uploader.on('error', function (res) {
     console.log(res);
 });
 ```
+
+## Try it Yourself
+
+[Demo](https://unpkg.com/goodies-uploader@1.0.5/examples/index.html)
+
+
+
+
